@@ -83,7 +83,7 @@ export default function Dashboard() {
 
         <SimpleGrid flex="1" gap="4" minChildWidth="320px" alignItems="flex-start">
           <Box padding="8" backgroundColor="gray.800" borderRadius={8} paddingBottom="4">
-            <Text fontSize="lg" marginBotton="4">Inscritos da semana</Text>
+            <Text fontSize="lg" marginBottom="4">Inscritos da semana</Text>
 
             <Chart options={options} series={series} type="area" height={160} />
           </Box>
