@@ -1,9 +1,9 @@
 import { Flex } from '@chakra-ui/react'
 
-import { Logo } from './Header/Logo'
-import { SearchBox } from './Header/SearchBox'
-import { NotificationsNav } from './Header/NotificationNav'
-import { Profile } from './Header/Profile'
+import { Logo } from './Logo'
+import { SearchBox } from './SearchBox'
+import { NotificationsNav } from './NotificationNav'
+import { Profile } from './Profile'
 
 export function Header() {
   return(
