@@ -103,7 +103,7 @@ export default function Dashboard() {
             </Box>
 
             <Box padding="8" backgroundColor="gray.800" borderRadius={8} paddingBottom="4">
-              <Text fontSize="lg" marginBotton="4">Taxa de Abertura</Text>
+              <Text fontSize="lg" marginBottom="4">Taxa de Abertura</Text>
               <Chart options={options} series={series} type="area" height={160} />
             </Box>
           </SimpleGrid>
