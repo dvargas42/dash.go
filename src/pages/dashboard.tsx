@@ -1,7 +1,8 @@
-import { Box, Flex, SimpleGrid, Text, theme } from '@chakra-ui/react'
+import { Box, Flex, SimpleGrid, Text, theme, useBreakpointValue } from '@chakra-ui/react'
 import dynamic from 'next/dynamic'
 
 import { Header } from '../components/Header'
+import { SearchBox } from '../components/Header/SearchBox'
 import { Sidebar } from '../components/Sidebar'
 
 const Chart = dynamic(() => import ('react-apexcharts'), {
@@ -74,6 +75,11 @@ const series = [
 ]
 
 export default function Dashboard() {
+  const isWideVersion = useBreakpointValue({
+    base: false,
+    lg: true,
+  })
+
   return (
     <Flex direction="column" height="100vh">
       <Header />
@@ -82,6 +88,8 @@ export default function Dashboard() {
         <Sidebar />
 
         <SimpleGrid flex="1" gap="4" minChildWidth="320px" alignItems="flex-start">
+          {!isWideVersion && <SearchBox />}
+
           <Box padding="8" backgroundColor="gray.800" borderRadius={8} paddingBottom="4">
             <Text fontSize="lg" marginBottom="4">Inscritos da semana</Text>
 
