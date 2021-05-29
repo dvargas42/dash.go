@@ -102,7 +102,12 @@ export default function Dashboard() {
               <Chart options={options} series={series} type="area" height={160} />
             </Box>
 
-            <Box padding="8" backgroundColor="gray.800" borderRadius={8} paddingBottom="4">
+           <Box
+              padding={isWideVersion ? "8" : "6"}
+              backgroundColor="gray.800"
+              borderRadius={8}
+              paddingBottom="4"
+            >
               <Text fontSize="lg" marginBottom="4">Taxa de Abertura</Text>
               <Chart options={options} series={series} type="area" height={160} />
             </Box>
