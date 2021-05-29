@@ -5,7 +5,7 @@ type SearchBoxProps = FlexProps
 
 export function SearchBox({...rest}: SearchBoxProps ) {
   const isWideVersion = useBreakpointValue({
-    base: 655,
+    base: 991,
     lg: 400,
   })
 
@@ -15,7 +15,7 @@ export function SearchBox({...rest}: SearchBoxProps ) {
       flex="1"
       paddingY="4"
       paddingX="8"
-      marginLeft= {["6", "0"]}
+      marginLeft= {isWideVersion === 400 ? "6" : "0"}
       maxWidth={isWideVersion}
       alignSelf="center"
       color="gray.200"
