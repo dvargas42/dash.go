@@ -1,7 +1,9 @@
-import { Flex, Icon, Input, useBreakpointValue } from "@chakra-ui/react";
+import { Flex, Icon, Input, useBreakpointValue, FlexProps } from "@chakra-ui/react";
 import { RiSearchLine } from "react-icons/ri";
 
-export function SearchBox() {
+type SearchBoxProps = FlexProps 
+
+export function SearchBox({...rest}: SearchBoxProps ) {
   const isWideVersion = useBreakpointValue({
     base: 655,
     lg: 400,
@@ -20,6 +22,7 @@ export function SearchBox() {
       position="relative"
       backgroundColor="gray.800"
       borderRadius="full"
+      {...rest}
     >
       <Input
         color="gray.50"
