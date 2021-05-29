@@ -86,21 +86,23 @@ export default function Dashboard() {
 
       <Flex width="100%" marginY="6" maxWidth={1480} marginX="auto" paddingX="6">
         <Sidebar />
+        
+        <Box flex="1" flexDirection="column">
+          {!isWideVersion && <SearchBox marginY="4"/>}
+          
+          <SimpleGrid flex="1" gap="4" minChildWidth="320px" alignItems="flex-start">
+            <Box padding="8" backgroundColor="gray.800" borderRadius={8} paddingBottom="4">
+              <Text fontSize="lg" marginBottom="4">Inscritos da semana</Text>
 
-        <SimpleGrid flex="1" gap="4" minChildWidth="320px" alignItems="flex-start">
-          {!isWideVersion && <SearchBox />}
+              <Chart options={options} series={series} type="area" height={160} />
+            </Box>
 
-          <Box padding="8" backgroundColor="gray.800" borderRadius={8} paddingBottom="4">
-            <Text fontSize="lg" marginBottom="4">Inscritos da semana</Text>
-
-            <Chart options={options} series={series} type="area" height={160} />
-          </Box>
-
-          <Box padding="8" backgroundColor="gray.800" borderRadius={8} paddingBottom="4">
-            <Text fontSize="lg" marginBotton="4">Taxa de Abertura</Text>
-            <Chart options={options} series={series} type="area" height={160} />
-          </Box>
-        </SimpleGrid>
+            <Box padding="8" backgroundColor="gray.800" borderRadius={8} paddingBottom="4">
+              <Text fontSize="lg" marginBotton="4">Taxa de Abertura</Text>
+              <Chart options={options} series={series} type="area" height={160} />
+            </Box>
+          </SimpleGrid>
+        </Box>
       </Flex>
     </Flex>
   )
