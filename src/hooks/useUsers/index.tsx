@@ -1,6 +1,6 @@
 import { useQuery } from "react-query"
 
-import { FormatDate } from "../../../utils/Format"
+import { FormatDate } from "../../utils/Format"
 import { api } from "../../services/axios"
 
 type User = {
