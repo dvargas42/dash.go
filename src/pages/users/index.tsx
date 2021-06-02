@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { useState } from "react";
+import NextLink from "next/link";
 import {
   Box,
   Button,
@@ -7,6 +8,7 @@ import {
   Heading,
   Icon,
   IconButton,
+  Link,
   Spinner,
   Table,
   Tbody,
@@ -24,14 +26,28 @@ import { SearchBox } from "../../components/Header/SearchBox";
 import { Pagination } from "../../components/Pagination";
 import { Sidebar } from "../../components/Sidebar";
 import { useUser } from "../../hooks/useUsers";
+import { queryClient } from "../../services/queryClient";
+import { api } from "../../services/axios";
 
 export default function UserList() {
-  const { data, isLoading, isFetching, error } = useUser()
+  const [page, setPage] = useState(1)
+  const { data, isLoading, isFetching, error } = useUser(page)
 
   const isWideVersion = useBreakpointValue({
     base: false,
     lg: true,
   })
+
+  async function handlePrefetchUser(userId: number) {
+    await queryClient.prefetchQuery(['user', userId], async () => {
+      const response = await api.get(`user/${userId}`)
+
+      return response.data
+    },
+    {
+      staleTime: 1000 * 60 * 10, //10 minuts
+    })
+  }
 
   return (
     <Box>
@@ -51,7 +67,7 @@ export default function UserList() {
                 { !isLoading && isFetching && <Spinner size="sm" color="gray.500" marginLeft="4" />}
               </Heading>
 
-              <Link href="/users/create" passHref>
+              <NextLink href="/users/create" passHref>
                 <Button
                   as="a"
                   size="sm"
@@ -61,7 +77,7 @@ export default function UserList() {
                 >
                   Criar novo
                 </Button>
-              </Link>
+              </NextLink>
             </Flex>
 
             { isLoading ? (
@@ -89,7 +105,7 @@ export default function UserList() {
                     </Tr>
                   </Thead>
                   <Tbody>
-                    {data.map(user => (
+                    {data.users.map(user => (
                       <Tr key={user.id} color="white">
                         <Td paddingX={isWideVersion ? "6" : "3"}>
                           <Checkbox colorScheme="pink" />
@@ -97,7 +113,10 @@ export default function UserList() {
   
                         <Td paddingX={isWideVersion ? "6" : "3"}>
                           <Box>
-                            <Text fontWeight="bold">{user.name}</Text>
+                            <Link color="purple.400" onMouseEnter={() => handlePrefetchUser(user.id)}>
+                              <Text fontWeight="bold">{user.name}</Text>
+                            </Link>
+
                             <Text fontSize={isWideVersion ? "sm" : "x-small"} color="gray.300">{user.email}</Text>
                           </Box>
                         </Td>
@@ -131,7 +150,11 @@ export default function UserList() {
                   </Tbody>
                 </Table>
 
-                <Pagination />
+                <Pagination
+                  totalCountOfRegisters={data.totalCount}
+                  currentPage={page}
+                  onPageChange={setPage}
+                />
               </>
             )}
           </Box>
