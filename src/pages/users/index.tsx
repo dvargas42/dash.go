@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { GetServerSideProps } from "next";
 import NextLink from "next/link";
 import {
   Box,
@@ -25,13 +26,29 @@ import { Header } from "../../components/Header";
 import { SearchBox } from "../../components/Header/SearchBox";
 import { Pagination } from "../../components/Pagination";
 import { Sidebar } from "../../components/Sidebar";
-import { useUser } from "../../hooks/useUsers";
+import { getUsers, useUser } from "../../hooks/useUsers";
 import { queryClient } from "../../services/queryClient";
 import { api } from "../../services/axios";
 
-export default function UserList() {
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  createdAt: string;
+}
+
+interface GetUsersResponse {
+  users: User[];
+  totalCount: number;
+}
+
+export default function UserList(props: GetUsersResponse | null) {
   const [page, setPage] = useState(1)
-  const { data, isLoading, isFetching, error } = useUser(page)
+
+  const { data, isLoading, isFetching, error } = useUser(page, props === null
+    ? { initialData: props} 
+    : null
+  )
 
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -162,4 +179,23 @@ export default function UserList() {
       </Flex>
     </Box>
   )
+}
+export const getServerSideProps: GetServerSideProps = async () => {
+  try {
+    const { users, totalCount } = await getUsers(1)
+
+    return {
+      props: {
+        users,
+        totalCount,
+      }
+    }
+
+  } catch (error) {
+    console.log('Request not .', error.message || error)
+
+    return {
+      props: {}
+    }
+  }
 }
